@@ -1,0 +1,40 @@
+---
+description: Authentication guidance for the Dynatrace MCP server
+globs:
+alwaysApply: true
+---
+
+# Dynatrace Authentication
+
+The Dynatrace MCP tools require two environment variables to authenticate against your Dynatrace environment.
+
+## Required Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DT_API_URL` | Base URL of your Dynatrace environment | `https://abc12345.live.dynatrace.com` |
+| `DT_API_TOKEN` | Dynatrace API token with required scopes | `dt0c01.EXAMPLE...` |
+
+## Setup
+
+1. Open your Dynatrace environment at `https://<environment-id>.live.dynatrace.com`.
+2. Go to **Settings → Integration → Dynatrace API** and create a new API token.
+3. Grant the token these minimum scopes:
+   - `entities.read` — read monitored entities
+   - `problems.read` — read problems
+   - `metrics.read` — read metrics
+4. Set the environment variables in your Cursor MCP config:
+
+```json
+"env": {
+  "DT_API_URL": "https://<environment-id>.live.dynatrace.com",
+  "DT_API_TOKEN": "dt0c01.<your-token>"
+}
+```
+
+## Security
+
+- Never commit API tokens to version control.
+- Use Cursor's environment variable support or a `.env` file (gitignored).
+- Prefer tokens with minimal required scopes.
+- Rotate tokens regularly and revoke any that are no longer needed.
