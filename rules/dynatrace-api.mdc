@@ -1,0 +1,46 @@
+---
+description: Best practices for using the Dynatrace API via MCP tools
+globs:
+alwaysApply: true
+---
+
+# Dynatrace API Guidelines
+
+Follow these guidelines when working with Dynatrace data through the MCP tools.
+
+## API Versioning
+
+- Use the **v2 API** endpoints (`/api/v2/`) for all new integrations.
+- The v1 API is deprecated and should not be used for new work.
+
+## Entity Selectors
+
+Entity selectors filter the entities returned by `get_entities`. Common patterns:
+
+```
+type(SERVICE)                          — all services
+type(HOST)                             — all hosts
+type(SERVICE),entityName("my-service") — service by name (exact)
+type(SERVICE),tag("env:production")    — services tagged env:production
+entityId(SERVICE-1234ABCD5678EF90)     — specific entity by ID
+```
+
+## Metric Selectors
+
+Metric selectors specify which metrics to query. Key conventions:
+
+- Use `builtin:` prefix for Dynatrace built-in metrics.
+- Append aggregations with `:avg`, `:max`, `:min`, `:sum`, `:count`.
+- Combine with entity scope using `?scope=` or `entitySelector`.
+
+## Time Ranges
+
+- Relative: `now-1h`, `now-2d`, `now-1w`
+- Absolute: ISO 8601 format `2024-01-15T10:00:00Z`
+- Default to `now-2h` for performance metrics and `now-24h` for problem searches.
+
+## Rate Limits
+
+- The Dynatrace API enforces rate limits per environment.
+- Add short delays between bulk requests to avoid hitting limits.
+- Use pagination (`nextPageKey`) when listing large result sets.

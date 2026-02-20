@@ -1,0 +1,28 @@
+{
+  "name": "dynatrace",
+  "displayName": "Dynatrace",
+  "version": "0.1.0",
+  "description": "Dynatrace observability and APM tools for Cursor — analyze problems, query metrics, and explore services via MCP.",
+  "author": "dtstagl",
+  "license": "MIT",
+  "keywords": ["dynatrace", "observability", "apm", "monitoring", "mcp"],
+  "mcpServers": {
+    "dynatrace": {
+      "command": "node",
+      "args": ["mcp-server/build/index.js"],
+      "env": {
+        "DT_API_URL": "${DT_API_URL}",
+        "DT_API_TOKEN": "${DT_API_TOKEN}"
+      }
+    }
+  },
+  "skills": [
+    "skills/analyze-problem/SKILL.md",
+    "skills/query-metrics/SKILL.md",
+    "skills/explore-service/SKILL.md"
+  ],
+  "rules": [
+    "rules/dynatrace-api.mdc",
+    "rules/dynatrace-auth.mdc"
+  ]
+}
